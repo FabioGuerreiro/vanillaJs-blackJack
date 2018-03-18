@@ -4,7 +4,7 @@ var deck = (function() {
     var innerDeck = [];
 
     var init = function() {
-        resetDeck();
+        reset();
         shuffle();
     }
 
@@ -12,7 +12,7 @@ var deck = (function() {
         return innerDeck;
     }
 
-    var resetDeck = function() {
+    var reset = function() {
         var newDeck = new Array();
 
         suits.map((suit) => {
@@ -64,7 +64,7 @@ var deck = (function() {
     return {
         init: init,
         deck: deck,
-        resetDeck: resetDeck,
+        reset: reset,
         deal: deal,
         shuffle: shuffle,
         getCardUI: getCardUI

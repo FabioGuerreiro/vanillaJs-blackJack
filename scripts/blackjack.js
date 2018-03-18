@@ -1,16 +1,9 @@
-function renderDeck()
-{
-	deck.deck().map(card => {
-		document.getElementById("deck").appendChild(deck.getCardUI(card));
-	});
-}
-
 var blackjack = (function() {
     var currentPlayer = 0;
 
     var init = function(){
+        reset();
         deck.init();
-        
         players.init();
         players.newPlayer('player1');
 
@@ -21,6 +14,17 @@ var blackjack = (function() {
         currentPlayer = players.players().length - 1;
 
         updateActivePlayer(players.players()[currentPlayer]);
+    }
+
+    var reset = function(){
+        var div_status = document.getElementById('status');
+        div_status.classList.remove('active');
+
+        var p_status_text = document.getElementById('status-text');
+        p_status_text.innerHTML = "";
+
+        document.getElementById('players').innerHTML = '';
+        document.getElementById('house').innerHTML = '';
     }
 
     var dealCards = function() {
@@ -100,7 +104,7 @@ var blackjack = (function() {
                 autoPlay(players.players()[currentPlayer]);
             }
         } else {
-            //endGame();
+            endGame();
         }
     }
 
@@ -113,18 +117,32 @@ var blackjack = (function() {
             }
         });
         // if points are inferior to other players have to hit
-        if (player.points < highestScore) {
+        if (player.points <= highestScore) {
             hit(player);
         } else { 
             stay(player);
         }
     }
 
+    var endGame = function(){
+        var highestScore = 0;
+        var winner = {};
+
+        players.players().map((p) => {
+            if (p.points <= 21 && p.points > highestScore) {
+                highestScore = p.points;
+                winner = p;
+            }
+        });
+
+        updateStatus(winner.name + " wins!", winner.type == 'human');
+    }
+
     var checkWinners = function(player){
         if (player.points == 21) {
-            alert(player.name + " wins!");
+            updateStatus(player.name + " wins!", true);
         } else if (player.points > 21) {
-            alert(player.name + " busted!");
+            updateStatus(player.name + " busted!", false);
             stay(player);
         }
     }
@@ -203,14 +221,32 @@ var blackjack = (function() {
                 document.getElementById('actions_' + player.id).innerHTML = '';
             }
         });
+        var div_status = document.getElementById('status');
+        div_status.classList.remove('active');
     }
 
     var updatePlayerPoints = function(player) {
         document.getElementById('points_' + player.id).innerHTML = player.points;
     }
 
+    var updateStatus = function(text, win) {
+        var div_status = document.getElementById('status');
+        div_status.classList.add('active');
+
+        var div_status_content = document.getElementById('status-content');
+        if (win){
+            div_status_content.classList.remove('red');
+        } else {
+            div_status_content.classList.add('red');
+        }
+
+        var p_status_text = document.getElementById('status-text');
+        p_status_text.innerHTML = text;
+    }
+
     return {
-        init: init
+        init: init,
+        reset: reset
     }
 })();
 

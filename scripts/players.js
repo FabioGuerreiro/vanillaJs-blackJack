@@ -2,7 +2,12 @@ var players = (function() {
     var innerPlayers = [];
 
     var init = function() {
+        reset();
         newPlayer('house', 'auto');
+    }
+
+    var reset = function() {
+        innerPlayers = [];
     }
 
     var players = function() {
@@ -24,6 +29,7 @@ var players = (function() {
     return {
         init: init,
         players: players,
-        newPlayer: newPlayer
+        newPlayer: newPlayer,
+        reset: reset
     }
 })();
