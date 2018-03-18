@@ -2,7 +2,7 @@
     position: relative;
     float: left;
     margin: 5px;
-    width: 50px;
+    width: 45px;
     height: 70px;
     border-radius: 5px;
     background: #fff;
@@ -11,6 +11,7 @@
     box-shadow: 3px 3px 7px rgba(0,0,0,0.3);
 }
 .card p {
+    margin-top: 20px;
     text-align: center;
     font: 20px Georgia, Times New Roman, serif;
 }

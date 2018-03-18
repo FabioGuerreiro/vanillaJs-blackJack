@@ -11,6 +11,7 @@ var players = (function() {
 
     var newPlayer = function(name, type='human'){
         var player = {
+            id: innerPlayers.length + 1,
             name: name,
             type: type,
             hand: [],

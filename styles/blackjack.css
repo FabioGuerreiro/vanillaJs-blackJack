@@ -18,7 +18,45 @@ header h1{
 
 .table{
     display: block;
-    width: 100%;
-    height: calc(100vh - 64px);
+    height: calc(100vh - 104px);
     background: #076324;
+    padding: 20px 0;
+}
+
+#house, #players{
+    display: block;
+    margin: 0 auto;
+    padding-top: 10px;
+    width: 320px;
+    clear: both;
+}
+.player{
+    color: #fff;
+    border: solid 2px #ccc;
+    border-radius: 10px;
+    padding: 10px;
+    display: block;
+}
+.hand{
+    overflow: auto;
+    clear: both;
+}
+.player.active{
+    border: solid 2px #fff;
+    background: rgba(255, 255, 255, .3);
+}
+.points{
+    color: yellow;
+}
+
+.deck{
+    width: 62px;
+    margin: 0 auto;
+}
+.deck > div:first-of-type, .player > div:first-of-type{
+    width: 100%;
+    color: #fff;
+    text-align: center;
+    font-weight: bold;
+    padding-bottom: 10px;
 }

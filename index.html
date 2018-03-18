@@ -2,12 +2,10 @@
 <html lang="en">
     <head>
         <meta charset="utf-8">
+        
+        <meta content='width=device-width,initial-scale=1.0,user-scalable=no' name='viewport'>
 
         <link href="styles/blackjack.css" rel="stylesheet"></link>
-
-        <script src="scripts/deck.js"></script>
-        <script src="scripts/players.js"></script>
-        <script src="scripts/blackjack.js"></script>
     </head>
     <body>
         <header>
@@ -15,12 +13,21 @@
         </header>
         <div class="table">
 
-            <div class="player" id="house"></div>
+            <div class="deck">
+                <div>Deck</div>
+                <div class="card">
+                    <p id="deckcount">52</p>
+                </div>
+            </div>
 
-            <div class="player" id="players"></div>
+            <div id="house"></div>
 
-            <div class="deck"></div>
+            <div id="players"></div>
 
         </div>
+
+        <script src="scripts/deck.js"></script>
+        <script src="scripts/players.js"></script>
+        <script src="scripts/blackjack.js"></script>
     </body>
 </html>
