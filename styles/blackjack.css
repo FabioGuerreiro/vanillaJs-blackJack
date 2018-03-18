@@ -78,8 +78,7 @@ header h1{
     position: absolute;
     width: 100%;
     padding: 20px 0;
-    top: 50%;
-    margin-top: -25px;
+    top: 80px;
     background: #000;
     color: yellow;
     text-align: center;

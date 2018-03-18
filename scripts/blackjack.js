@@ -32,12 +32,12 @@ var blackjack = (function() {
             switch(player.type){
                 case 'human':
                     while(player.hand.length < 2) {
-                        hit(player);
+                        hit(player, true);
                     }
                     break;
                 case 'auto':
                 default:
-                    hit(player);
+                    hit(player, true);
                     break;
             }
         });
@@ -83,14 +83,14 @@ var blackjack = (function() {
         return weight;
     }
     
-    var hit = function(player){
+    var hit = function(player, dealing = false){
         var card = deck.deal();
         player.hand.push(card);
         handlePoints(player);
         renderCard(card, player);
         updateDeck();
 
-        if (player.type != 'human') {
+        if (!dealing && player.type != 'human') {
             autoPlay(player);
         }
     };
@@ -116,12 +116,15 @@ var blackjack = (function() {
                 highestScore = p.points;
             }
         });
-        // if points are inferior to other players have to hit
-        if (player.points <= highestScore) {
-            hit(player);
-        } else { 
-            stay(player);
-        }
+
+        window.setTimeout(() => {
+            // if points are inferior to other players have to hit
+            if (player.points <= highestScore) {
+                hit(player);
+            } else { 
+                stay(player);
+            }
+        }, 1000);
     }
 
     var endGame = function(){
