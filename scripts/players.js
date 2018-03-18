@@ -1,5 +1,13 @@
 var players = (function() {
-    var players = [];
+    var innerPlayers = [];
+
+    var init = function() {
+        newPlayer('house', 'auto');
+    }
+
+    var players = function() {
+        return innerPlayers;
+    }
 
     var newPlayer = function(name, type='human'){
         var player = {
@@ -8,13 +16,13 @@ var players = (function() {
             hand: [],
             points: 0
         }
-    }
 
-    var hit = function(card){
-        hand.push(card);
+        innerPlayers.push(player);
     }
 
     return {
-        hand: hand
+        init: init,
+        players: players,
+        newPlayer: newPlayer
     }
 })();
