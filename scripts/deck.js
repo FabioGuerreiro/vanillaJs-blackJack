@@ -1,17 +1,34 @@
+/**
+ * Deck Module
+ * 
+ * Defines a deck of 52 cards
+ */
 var deck = (function() {
+    // possible card values
     var cards = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K'];
+    // possible card suits
     var suits = ['hearts', 'spades', 'diamonds', 'clubs'];
+    // container for all the cards
     var innerDeck = [];
 
+    /**
+     * Initializes the deck array and shuffles it
+     */
     var init = function() {
         reset();
         shuffle();
     }
 
+    /**
+     * Returns deck container 
+     */
     var deck = function() {
         return innerDeck;
     }
 
+    /**
+     * Clears deck and restart it with all the cards
+     */
     var reset = function() {
         var newDeck = new Array();
 
@@ -28,12 +45,19 @@ var deck = (function() {
         innerDeck = newDeck;
     }
 
+    /**
+     * Take 1 card from the top of the deck and return it
+     */
     var deal = function() {
         var card = innerDeck.pop();
         return card;
     }
 
-    //usign Fisher-Yates Shuffle
+    /**
+     * Shuffles the deck
+     * 
+     * Usign Fisher-Yates Shuffle
+     */
     var shuffle = function() {
         var currentIndex = innerDeck.length, temporaryValue, randomIndex;
 
@@ -51,6 +75,11 @@ var deck = (function() {
         }
     }
 
+    /**
+     * Creates and returns the DOM element of a card
+     * 
+     * Depends on deck.css to display correctly
+     */
     var getCardUI = function(card)
     {
         var el = document.createElement('div');

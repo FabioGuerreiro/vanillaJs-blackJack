@@ -1,6 +1,21 @@
+/**
+ * BlackJack Module
+ * 
+ * Depends on Deck and Players Modules and defines the rules and logic of the blackjack game
+ */
 var blackjack = (function() {
+    // index of the active player at a given moment
     var currentPlayer = 0;
 
+    /**
+     * Initializes the game
+     * 
+     * Starts the deck
+     * Starts the players and adds a new 'human' typed player
+     * Sets the Dom environment for the game
+     * Deals the cards to both players
+     * And sets the first active player to be the 'human'
+     */
     var init = function(){
         reset();
         deck.init();
@@ -16,6 +31,9 @@ var blackjack = (function() {
         updateActivePlayer(players.players()[currentPlayer]);
     }
 
+    /**
+     * Clears the game environment
+     */
     var reset = function(){
         var div_status = document.getElementById('status');
         div_status.classList.remove('active');
@@ -27,6 +45,11 @@ var blackjack = (function() {
         document.getElementById('house').innerHTML = '';
     }
 
+    /**
+     * Initial deal
+     * 
+     * gives 2 cards to human players and 1 to auto players
+     */
     var dealCards = function() {
         players.players().map((player) => {
             switch(player.type){
@@ -43,6 +66,11 @@ var blackjack = (function() {
         });
     }
 
+    /**
+     * handles player's points according to the respective hand
+     * 
+     * @param {object} player 
+     */
     var handlePoints = function(player){
         // to handle aces last
         var orderedCards = [];
@@ -68,6 +96,13 @@ var blackjack = (function() {
         checkWinners(player);
     }
 
+    /**
+     * returns the points referent to a given card value
+     * if it's an ace checks if should be 11 or 1
+     * 
+     * @param {object} card 
+     * @param {number} currentPoints 
+     */
     var cardWeight = function(card, currentPoints){
         var faces = ["J", "Q", "K"];
         
@@ -83,6 +118,13 @@ var blackjack = (function() {
         return weight;
     }
     
+    /**
+     * Takes a card from the deck and place it on player's hand
+     * If its dealing phase ignore autoplay
+     * 
+     * @param {object} player 
+     * @param {bool} dealing 
+     */
     var hit = function(player, dealing = false){
         var card = deck.deal();
         player.hand.push(card);
@@ -95,6 +137,11 @@ var blackjack = (function() {
         }
     };
 
+    /**
+     * Process what happens after player decides to not take more cards
+     * 
+     * @param {object} player 
+     */
     var stay = function(player){
         currentPlayer--;
         if (currentPlayer >= 0) {
@@ -108,6 +155,12 @@ var blackjack = (function() {
         }
     }
 
+    /**
+     * Makes the decisions for a 'auto' player based on his and the other players points
+     * Uses a timeout just for visualisation effect on the Dom
+     * 
+     * @param {object} player 
+     */
     var autoPlay = function(player){
         var highestScore = 0;
 
@@ -127,6 +180,9 @@ var blackjack = (function() {
         }, 1000);
     }
 
+    /**
+     * Checks who's the winner and creates a status on the DOM to display it
+     */
     var endGame = function(){
         var highestScore = 0;
         var winner = {};
@@ -141,6 +197,11 @@ var blackjack = (function() {
         updateStatus(winner.name + " wins!", winner.type == 'human');
     }
 
+    /**
+     * Checks if a player has blackjack or busts, defining winners before the expected end of the game
+     * 
+     * @param {object} player 
+     */
     var checkWinners = function(player){
         if (player.points == 21) {
             updateStatus(player.name + " wins!", true);
@@ -150,6 +211,9 @@ var blackjack = (function() {
         }
     }
 
+    /**
+     * Creates and sets the elements of the DOM for the existing players
+     */
     var createPlayersUI = function (){
         document.getElementById('players').innerHTML = '';
         document.getElementById('house').innerHTML = '';
@@ -187,17 +251,31 @@ var blackjack = (function() {
         });
     }
 
+    /**
+     * Render a card on the DOM of the correct place for a given player's hand
+     * 
+     * @param {object} card 
+     * @param {object} player 
+     */
     var renderCard = function(card, player)
     {
         var hand = document.getElementById('hand_' + player.id);
         hand.appendChild(deck.getCardUI(card));
     }
 
+    /**
+     * Updates the current number of cards in the deck's DOM element
+     */
     var updateDeck = function ()
     {
         document.getElementById('deckcount').innerHTML = deck.deck().length;
     }
 
+    /**
+     * Changes who's the current active player in the DOM
+     * 
+     * @param {object} activePlayer 
+     */
     var updateActivePlayer = function(activePlayer) {
         players.players().map((player) => {
             if (player.id === activePlayer.id) {
@@ -228,10 +306,22 @@ var blackjack = (function() {
         div_status.classList.remove('active');
     }
 
+    /**
+     * Updates the player points value in the DOM
+     * 
+     * @param {object} player 
+     */
     var updatePlayerPoints = function(player) {
         document.getElementById('points_' + player.id).innerHTML = player.points;
     }
 
+    /**
+     * Show the status hidden element with given text
+     * element should have a button to restart the game
+     * 
+     * @param {string} text 
+     * @param {bool} win 
+     */
     var updateStatus = function(text, win) {
         var div_status = document.getElementById('status');
         div_status.classList.add('active');
